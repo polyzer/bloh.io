@@ -57,6 +57,7 @@ Game.prototype.init = function ()
         new THREE.BoxBufferGeometry(10,10,10),
         new THREE.MeshBasicMaterial({color: 0xFF0000})
     );
+    this.Mesh.position.z = 5;
     this.Mesh.add(this.Camera);
 
     this.Camera.lookAt(this.Mesh.position);
