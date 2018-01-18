@@ -50,11 +50,7 @@ Game.prototype.init = function ()
 
     // this.trianglesTest(100, 100);
     this.deltaTime = 0;
-<<<<<<< HEAD
     this.yVector = new THREE.Vector3(0,0,1);
-=======
-    this.yVector = new THREE.Vector3(0,1,0);
->>>>>>> 48519ae1e131a9dc897932eab05ffdfa61ed22cf
 
 
     this.Mesh = new THREE.Mesh(
@@ -73,11 +69,8 @@ Game.prototype.init = function ()
         new THREE.MeshBasicMaterial({color: 0x00FF00})
     );
 
-<<<<<<< HEAD
     this.AxisHelper = new THREE.AxisHelper(100);
     this.Scene.add(this.AxisHelper);
-=======
->>>>>>> 48519ae1e131a9dc897932eab05ffdfa61ed22cf
     this.Scene.add(this.Plane);
     this.Scene.add(this.Mesh);
 
@@ -228,17 +221,10 @@ Game.prototype.onKeyPress = function (event)
         case "a":
         case "A":
             var addVec = this.Camera.getWorldDirection().clone();
-<<<<<<< HEAD
             addVec.z = 0;
             addVec.normalize();
             addVec.cross(this.yVector);
             addVec.multiplyScalar(-this.deltaTime);
-=======
-            addVec.normalize();
-            addVec.z = 0;
-            addVec.cross(this.yVector);
-            addVec.multiplyScalar(this.deltaTime);
->>>>>>> 48519ae1e131a9dc897932eab05ffdfa61ed22cf
             this.Mesh.position.add(addVec);
 
             break;
@@ -246,13 +232,10 @@ Game.prototype.onKeyPress = function (event)
         case "s":
         case "S":
             var addVec = this.Camera.getWorldDirection().clone();
-<<<<<<< HEAD
             addVec.z = 0;
             addVec.normalize();
-=======
             addVec.normalize();
             addVec.z = 0;
->>>>>>> 48519ae1e131a9dc897932eab05ffdfa61ed22cf
             addVec.multiplyScalar(- this.deltaTime);
             this.Mesh.position.add(addVec);
 
@@ -261,17 +244,10 @@ Game.prototype.onKeyPress = function (event)
         case "d":
         case "D":
             var addVec = this.Camera.getWorldDirection().clone();
-<<<<<<< HEAD
             addVec.z = 0;
             addVec.normalize();
             addVec.cross(this.yVector);
             addVec.multiplyScalar(this.deltaTime);
-=======
-            addVec.normalize();
-            addVec.z = 0;
-            addVec.cross(this.yVector);
-            addVec.multiplyScalar(- this.deltaTime);
->>>>>>> 48519ae1e131a9dc897932eab05ffdfa61ed22cf
             this.Mesh.position.add(addVec);
 
             break;
