@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Bloh.io </title>
+    <style>html { overflow:  hidden; }</style>
+
+
+    <script src="../games_resources/libs/three.js-87/build/three.min.js"></script>
+    <script src='./OrbitControls.js'></script>
+    <script src='../games_resources/libs/three.js-87/examples/js/renderers/CSS3DRenderer.js'></script>
+    <script src='../games_resources/libs/three.js-87/examples/js/loaders/ColladaLoader2.js'></script>
+    <script src="../games_resources/libs/three.js-87/examples/js/libs/stats.min.js"></script>
+    <script src="../games_resources/libs/jquery.js"></script>
+
+    <script src="./constants_and_general_functions.js"></script>
+    <script src="./person.js"></script>
+    <script src="./store_window.js"></script>
+    <script src="./game.js"></script>
+    <script src="./menu.js"></script>
+    <script src="./meshes_base.js"></script>
+
+    <script src="./global_objects.js"></script>
+
+</head>
+
+<body>
+<script>
+    "user strict";
+    var WorkingMode = GAME_CONSTANTS.WORKING_MODE.LOCAL;
+
+    window.GLOBAL_OBJECTS = new GlobalObjects();
+    document.body.appendChild(window.GLOBAL_OBJECTS.getGameContainer());
+</script>
+
+</body>
+</html>
