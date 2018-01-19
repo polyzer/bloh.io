@@ -193,7 +193,7 @@ Game.prototype.update = function (delta)
 
 
     if(Math.abs(this.dxCenter)> 30)
-        this.CameraAngle.x -= ((this.dxCenter/window.innerWidth)*0.001);
+        this.CameraAngle.x = -((this.dxCenter/window.innerWidth)*0.1);
     this.controlObjectRotation();
     this.Renderer.render(this.Scene, this.Camera);
 
