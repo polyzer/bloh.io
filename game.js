@@ -13,8 +13,6 @@ var Game = function (json_params)
 
 Game.prototype.init = function ()
 {
-
-
     this.update = this.update.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
@@ -52,6 +50,25 @@ Game.prototype.init = function ()
     this.deltaTime = 0;
     this.yVector = new THREE.Vector3(0,0,1);
 
+    this.Bots = [], this.BotsCurrentMovingType = [] ;
+
+    for (var i=0; i<10; i++){
+        this.CurrentBot = new THREE.Mesh(
+            new THREE.BoxBufferGeometry(10,10,10),
+            new THREE.MeshBasicMaterial({color: 0x0000FF})
+        );
+        this.CurrentBot.position.z = 5;
+        this.CurrentBot.position.y = -100 + Math.random()*200;
+        this.CurrentBot.position.x = -100 + Math.random()*200;
+
+        this.BotMovingTypes = {
+            Parabolic: new Bot({Target: this.CurrentBot, TimeTarget: Math.random()})
+        };
+
+
+        this.Bots[i] = this.BotMovingTypes.Parabolic;
+        this.Scene.add(this.Bots[i].Variables.Mesh);
+    }
 
     this.Mesh = new THREE.Mesh(
         new THREE.BoxBufferGeometry(10,10,10),
@@ -171,6 +188,9 @@ Game.prototype.update = function (delta)
 
     this.stats.update();
     this.CurrentMovingType.update();
+    for (var i=0; i<10; i++)
+        this.Bots[i].update();
+
 
     if(Math.abs(this.dxCenter)> 30)
         this.CameraAngle.x -= ((this.dxCenter/window.innerWidth)*0.001);
