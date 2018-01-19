@@ -21,7 +21,8 @@ Bot.prototype.init = function (){
         currentTime: 0+this.TimeTarget,
         jumpForce: 10,
         startedPos: this.Target.position.z,
-            addVec: this.AddVec
+            addVec: this.AddVec,
+        roomSize : 100
     };
 
 
@@ -39,4 +40,9 @@ Bot.prototype.update = function ()
         this.Variables.currentTime = this.Variables.timeBottomBorder;
 
     }
+    if (Math.abs(this.Target.position.x+this.Variables.addVec.x)>this.Variables.roomSize)
+        this.Variables.addVec.x-=2* this.Variables.addVec.x;
+
+    if (Math.abs(this.Target.position.y+this.Variables.addVec.y)>this.Variables.roomSize)
+        this.Variables.addVec.y-=2* this.Variables.addVec.y;
 };

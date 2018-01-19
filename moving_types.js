@@ -1,7 +1,8 @@
 var ParabolicMoving = function (json_params)
 {
     var json_params_names = [
-        "Target"
+        "Target",
+        "AddVec"
     ];
 
     setParametersByArray.call(this, json_params, json_params_names);
@@ -16,7 +17,8 @@ var ParabolicMoving = function (json_params)
         nextUp: false,
         nextForward: false,
         up: 1,
-        forward: 0
+        forward: 0,
+        addVec: this.AddVec
     };
 };
 
@@ -24,7 +26,9 @@ ParabolicMoving.prototype.update = function ()
 {
     if(this.Variables.currentTime < this.Variables.timeTopBorder*this.Variables.up)
     {
-        this.Target.position.z = this.Variables.startedPos+(this.Variables.up*this.Variables.up-Math.pow((this.Variables.currentTime-this.Variables.up), 2)
+        this.Target.position.add(this.Variables.addVec);
+        this.Target.position.z = this.Variables.startedPos + (this.Variables.up*this.Variables.up-Math.pow(
+            (this.Variables.currentTime-this.Variables.up), 2)//+this.Variables.forward
         )*this.Variables.jumpForce;
         this.Variables.currentTime += this.Variables.step;
     } else {

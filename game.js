@@ -50,7 +50,7 @@ Game.prototype.init = function ()
     this.deltaTime = 0;
     this.zVector = new THREE.Vector3(0,0,1);
 
-    this.Bots = [], this.BotsCurrentMovingType = [] ;
+    this.Bots = [];
 
     for (var i=0; i<10; i++){
         this.CurrentBot = new THREE.Mesh(
@@ -75,7 +75,11 @@ Game.prototype.init = function ()
     this.Mesh = new THREE.Mesh(
         new THREE.BoxBufferGeometry(10,10,10),
         new THREE.MeshBasicMaterial({color: 0xFF0000})
-    );
+    );/*
+    this.Mesh.add(new THREE.LineSegments(
+        new THREE.EdgesGeometry( this.Mesh.geometry ),
+        new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } )
+    ));*/
     this.Mesh.position.z = 5;
     this.ControlObject = new THREE.Object3D();
     this.ControlObject.add(this.Mesh);
@@ -88,7 +92,7 @@ Game.prototype.init = function ()
 
     this.Plane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(200, 200, 32),
-        new THREE.MeshBasicMaterial({color: 0x00FF00})
+        new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load( "textures/Paper.jpg" )})
     );
 
     this.lastTime = 0;
@@ -97,8 +101,13 @@ Game.prototype.init = function ()
     this.Scene.add(this.Plane);
     this.Scene.add(this.ControlObject);
 
+    this.addVec = this.Camera.getWorldDirection().clone();
+    this.addVec.z = 0;
+    this.addVec.normalize();
+    this.addVec.multiplyScalar(this.deltaTime);
+
     this.MovingTypes = {
-        Parabolic: new ParabolicMoving({Target: this.Mesh})
+        Parabolic: new ParabolicMoving({Target: this.Mesh, AddVec: this.addVec })
     };
 
     this.CameraAngle = new THREE.Vector3();
@@ -202,7 +211,7 @@ Game.prototype.update = function (delta)
         this.Bots[i].update();
 
 
-    if(Math.abs(this.dxCenter)> 30)
+    if(Math.abs(this.dxCenter)> 10)
         this.CameraAngle.x = -((this.dxCenter/window.innerWidth)*0.1);
     this.controlObjectRotation();
     this.Renderer.render(this.Scene, this.Camera);
