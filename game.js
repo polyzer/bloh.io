@@ -48,7 +48,7 @@ Game.prototype.init = function ()
 
     // this.trianglesTest(100, 100);
     this.deltaTime = 0;
-    this.yVector = new THREE.Vector3(0,0,1);
+    this.zVector = new THREE.Vector3(0,0,1);
 
     this.Bots = [], this.BotsCurrentMovingType = [] ;
 
@@ -60,9 +60,11 @@ Game.prototype.init = function ()
         this.CurrentBot.position.z = 5;
         this.CurrentBot.position.y = -100 + Math.random()*200;
         this.CurrentBot.position.x = -100 + Math.random()*200;
+        this.CurrentBotVec = new THREE.Vector3(-1+2*Math.random(),-1+2*Math.random(),0);
 
         this.BotMovingTypes = {
-            Parabolic: new Bot({Target: this.CurrentBot, TimeTarget: Math.random()})
+            Parabolic: new Bot({Target: this.CurrentBot, TimeTarget: Math.random() ,
+                AddVec : this.CurrentBotVec})
         };
 
 
@@ -140,10 +142,9 @@ Game.prototype.onKeyPress = function (event)
             var addVec = this.Camera.getWorldDirection().clone();
             addVec.z = 0;
             addVec.normalize();
-            addVec.cross(this.yVector);
+            addVec.cross(this.zVector);
             addVec.multiplyScalar(-this.deltaTime);
             this.ControlObject.position.add(addVec);
-
             break;
 
         case "s":
@@ -154,7 +155,6 @@ Game.prototype.onKeyPress = function (event)
             addVec.z = 0;
             addVec.multiplyScalar(- this.deltaTime);
             this.ControlObject.position.add(addVec);
-
             break;
 
         case "d":
@@ -162,11 +162,21 @@ Game.prototype.onKeyPress = function (event)
             var addVec = this.Camera.getWorldDirection().clone();
             addVec.z = 0;
             addVec.normalize();
-            addVec.cross(this.yVector);
+            addVec.cross(this.zVector);
             addVec.multiplyScalar(this.deltaTime);
             this.ControlObject.position.add(addVec);
-
             break;
+
+        case "q":
+        case "Q":
+            this.CurrentMovingType.Variables.nextUp = true;
+            break;
+
+        case "e":
+        case "E":
+            this.CurrentMovingType.Variables.nextForward = true;
+            break;
+
     }
 };
 

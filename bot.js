@@ -2,8 +2,8 @@ var Bot = function (json_params)
 {
     var json_params_names = [
         "Target",
-        "TimeTarget"
-        //  "Vector"
+        "TimeTarget",
+        "AddVec"
     ];
 
 
@@ -20,7 +20,8 @@ Bot.prototype.init = function (){
         step: 0.05,
         currentTime: 0+this.TimeTarget,
         jumpForce: 10,
-        startedPos: this.Target.position.z
+        startedPos: this.Target.position.z,
+            addVec: this.AddVec
     };
 
 
@@ -29,6 +30,7 @@ Bot.prototype.init = function (){
 
 Bot.prototype.update = function ()
 {
+    this.Target.position.add(this.Variables.addVec);
     if(this.Variables.currentTime < this.Variables.timeTopBorder)
     {
         this.Target.position.z = this.Variables.startedPos+Math.pow((this.Variables.currentTime-1), 2)*this.Variables.jumpForce;

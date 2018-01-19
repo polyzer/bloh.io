@@ -12,18 +12,32 @@ var ParabolicMoving = function (json_params)
         step: 0.05,
         currentTime: 0,
         jumpForce: 10,
-        startedPos: this.Target.position.z
+        startedPos: this.Target.position.z,
+        nextUp: false,
+        nextForward: false,
+        up: 1,
+        forward: 0
     };
 };
 
 ParabolicMoving.prototype.update = function ()
 {
-    if(this.Variables.currentTime < this.Variables.timeTopBorder)
+    if(this.Variables.currentTime < this.Variables.timeTopBorder*this.Variables.up)
     {
-        this.Target.position.z = this.Variables.startedPos+Math.pow((this.Variables.currentTime-1), 2)*this.Variables.jumpForce;
+        this.Target.position.z = this.Variables.startedPos+(this.Variables.up*this.Variables.up-Math.pow((this.Variables.currentTime-this.Variables.up), 2)
+        )*this.Variables.jumpForce;
         this.Variables.currentTime += this.Variables.step;
     } else {
         this.Variables.currentTime = this.Variables.timeBottomBorder;
+        if (this.Variables.nextUp)
+        {
+            this.Variables["up"] = 3;
+            this.Variables.nextUp = false;
+
+        }
+        else
+            this.Variables.up = 1;
 
     }
 };
+
