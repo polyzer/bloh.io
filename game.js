@@ -58,9 +58,11 @@ Game.prototype.init = function ()
         new THREE.MeshBasicMaterial({color: 0xFF0000})
     );
     this.Mesh.position.z = 5;
-    this.Mesh.add(this.Camera);
+    this.ControlObject = new THREE.Object3D();
+    this.ControlObject.add(this.Mesh);
+    this.ControlObject.add(this.Camera);
 
-    this.Camera.lookAt(this.Mesh.position);
+    this.Camera.lookAt(this.ControlObject.position);
 
 //    this.Controls = new THREE.OrbitControls(this.Camera);
 //    this.Controls.target = this.Mesh.position;
@@ -74,11 +76,14 @@ Game.prototype.init = function ()
     this.AxisHelper = new THREE.AxisHelper(100);
     this.Scene.add(this.AxisHelper);
     this.Scene.add(this.Plane);
-    this.Scene.add(this.Mesh);
+    this.Scene.add(this.ControlObject);
 
     this.MovingTypes = {
         Parabolic: new ParabolicMoving({Target: this.Mesh})
     };
+
+    this.CameraAngle = new THREE.Vector3();
+    this.CameraRadius = 200;
 
     this.CurrentMovingType = this.MovingTypes.Parabolic;
 };
@@ -110,7 +115,7 @@ Game.prototype.onKeyPress = function (event)
             addVec.z = 0;
             addVec.normalize();
             addVec.multiplyScalar(this.deltaTime);
-            this.Mesh.position.add(addVec);
+            this.ControlObject.position.add(addVec);
             break;
 
         case "a":
@@ -120,7 +125,7 @@ Game.prototype.onKeyPress = function (event)
             addVec.normalize();
             addVec.cross(this.yVector);
             addVec.multiplyScalar(-this.deltaTime);
-            this.Mesh.position.add(addVec);
+            this.ControlObject.position.add(addVec);
 
             break;
 
@@ -131,7 +136,7 @@ Game.prototype.onKeyPress = function (event)
             addVec.normalize();
             addVec.z = 0;
             addVec.multiplyScalar(- this.deltaTime);
-            this.Mesh.position.add(addVec);
+            this.ControlObject.position.add(addVec);
 
             break;
 
@@ -142,10 +147,21 @@ Game.prototype.onKeyPress = function (event)
             addVec.normalize();
             addVec.cross(this.yVector);
             addVec.multiplyScalar(this.deltaTime);
-            this.Mesh.position.add(addVec);
+            this.ControlObject.position.add(addVec);
 
             break;
     }
+};
+
+Game.prototype.cameraPositionControl = function ()
+{
+    this.Camera.position.x = this.ControlObject.position.x + Math.cos(this.CameraAngle.x)*this.CameraRadius;
+    this.Camera.position.y = this.ControlObject.position.y + Math.sin(this.CameraAngle.x)*this.CameraRadius;
+};
+
+Game.prototype.controlObjectRotation = function ()
+{
+    this.ControlObject.rotation.z += this.CameraAngle.x;
 };
 
 Game.prototype.update = function (delta)
@@ -157,8 +173,8 @@ Game.prototype.update = function (delta)
     this.CurrentMovingType.update();
 
     if(Math.abs(this.dxCenter)> 30)
-        this.Mesh.rotation.z += ((this.dxCenter/window.innerWidth*0.1));
-
+        this.CameraAngle.x -= ((this.dxCenter/window.innerWidth)*0.001);
+    this.controlObjectRotation();
     this.Renderer.render(this.Scene, this.Camera);
 
     requestAnimationFrame(this.update);
