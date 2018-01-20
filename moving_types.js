@@ -22,7 +22,7 @@ var ParabolicMoving = function (json_params)
     };
 };
 
-ParabolicMoving.prototype.update = function ()
+ParabolicMoving.prototype.update = function (Bots)
 {
     if(this.Variables.currentTime < this.Variables.timeTopBorder*this.Variables.up)
     {
@@ -41,7 +41,15 @@ ParabolicMoving.prototype.update = function ()
         }
         else
             this.Variables.up = 1;
+        if (this.Variables.nextForward)
+        {
+            this.Variables["forward"] = 3;
+            this.Variables.nextForward = false;
 
+        }
+        else
+            this.Variables.forward = 0;
     }
+
 };
 
